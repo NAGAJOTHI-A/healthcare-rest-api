@@ -26,18 +26,21 @@ public class GlobalExceptionHandler {
 		return Map.of("error",errors);
 	}
 	
-	@ExceptionHandler(UsernameNotFoundException.class)
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public Map<String,Object> handleUsernameNotFoundException(UsernameNotFoundException ex)
+	
+	
+	
+	  @ExceptionHandler(BadCredentialsException.class) 
+	  @ResponseStatus(HttpStatus.UNAUTHORIZED) 
+	  public Map<String,Object> handleBadCredentialsException(BadCredentialsException ex) { 
+		  return Map.of("error","Bad Credentials"); 
+	  }
+	 
+	
+	@ExceptionHandler(DataNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public Map<String,Object> handleDataNotFoundException(DataNotFoundException ex)
 	{
 		return Map.of("error",ex.getMessage());
-	}
-	
-	@ExceptionHandler(BadCredentialsException.class)
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public Map<String,Object> handleBadCredentialsException(BadCredentialsException ex)
-	{
-		return Map.of("error","Invalid Password");
 	}
 	
 }

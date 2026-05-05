@@ -8,5 +8,15 @@
     "name": "admin.password",
     "type": "java.lang.String",
     "description": "Password for the system administrator"
+  },
+  {
+    "name": "jwt.secret",
+    "type": "java.lang.String",
+    "description": "JWT token"
+  },
+  {
+    "name": "jwt.expirytime",
+    "type": "java.lang.String",
+    "description": "JWT Token expiry time duration in Mili seconds"
   }
 ]}
