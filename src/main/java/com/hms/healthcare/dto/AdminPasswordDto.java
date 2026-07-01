@@ -1,0 +1,15 @@
+package com.hms.healthcare.dto;
+
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
+
+@Data
+public class AdminPasswordDto {
+	
+
+	@NotEmpty(message="Previous password must not be empty")
+	private String prevPassword;
+	
+	@NotEmpty(message="New Password must not be empty")
+	private String newPassword;
+}

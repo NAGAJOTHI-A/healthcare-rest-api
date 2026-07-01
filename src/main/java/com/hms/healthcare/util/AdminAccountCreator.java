@@ -37,14 +37,10 @@ public class AdminAccountCreator implements CommandLineRunner{
 		// TODO Auto-generated method stub
 		if(!userRepository.existsByEmail(adminEmail)) {
 			log.info("Creating default admin account");
-			User adminUser=new User();
-			adminUser.setEmail(adminEmail);
-			adminUser.setPassword(passwordEncoder.encode(adminPassword) );
-			adminUser.setRole(HospitalRoles.ADMIN);
-			adminUser.setUsername("Administrator");
-			adminUser.setIsActive(true);
-			adminUser.setMobile(0L);
-			adminUser.setCreatedAt(LocalDateTime.now());
+			User adminUser=new User(null,"Administrator",adminEmail,passwordEncoder.encode(adminPassword),
+					0L,HospitalRoles.ADMIN,true,null);
+			
+			
 			userRepository.save(adminUser);
 			log.info("Default admin account created with email: {}",adminEmail);
 		}

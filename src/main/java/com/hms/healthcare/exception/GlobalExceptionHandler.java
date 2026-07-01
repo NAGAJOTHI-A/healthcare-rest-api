@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import io.jsonwebtoken.ExpiredJwtException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -27,8 +29,6 @@ public class GlobalExceptionHandler {
 	}
 	
 	
-	
-	
 	  @ExceptionHandler(BadCredentialsException.class) 
 	  @ResponseStatus(HttpStatus.UNAUTHORIZED) 
 	  public Map<String,Object> handleBadCredentialsException(BadCredentialsException ex) { 
@@ -42,5 +42,14 @@ public class GlobalExceptionHandler {
 	{
 		return Map.of("error",ex.getMessage());
 	}
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Map<String,Object> handle(IllegalArgumentException ex)
+	{
+		return Map.of("error",ex.getMessage());
+	}
+	
+	
 	
 }

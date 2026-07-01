@@ -19,4 +19,14 @@ public class UserDao {
 		return userRepository.findByEmail(email).orElseThrow(()-> new DataNotFoundException("User not found with email:"+email));	
 	}
 
+	public void save(User user) {
+		// TODO Auto-generated method stub
+		userRepository.save(user);
+	}
+	
+	public boolean checkEmailAndMobile(String email,Long mobile)
+	{
+		return userRepository.existsByEmailOrMobile(email,mobile);
+	}
+
 }
