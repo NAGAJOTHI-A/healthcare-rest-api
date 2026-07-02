@@ -1,23 +1,37 @@
 spring:
- application:
-  name: HMS
- datasource:
-  url: jdbc:${DB_URL:mysql://localhost:3306/hms_db?createDatabaseIfNotExist=true}
-  username: ${DB_USER:root}
-  password: ${DB_PASSWORD:root}
- jpa:
-  hibernate:
-   ddl-auto: update
-  show-sql: true
+  application:
+    name: HMS
+  datasource:
+    url: jdbc:${DB_URL:mysql://localhost:3306/hms_db?createDatabaseIfNotExist=true}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:root}
+  jpa:
+    hibernate:
+       ddl-auto: update
+    show-sql: true
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com} 
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_EMAIL:your-email}
+    password: ${MAIL_PASSWORD:app-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 server:
-  port: ${PORT:8080}
+   port: ${PORT:8080}
 admin:
- email: ${ADMIN_EMAIL:admin@hms.com}
- password: ${ADMIN_PASSWORD:admin123}
+   email: ${ADMIN_EMAIL:admin@hms.com}
+   password: ${ADMIN_PASSWORD:admin123}
 jwt:
- secret: ${JWT_SECRET:gajsdhjagsdgadsgjtbqwytebqwtyqbtsddyuagsdgasdjhasdjgajsdgagsdjgasjdgjhasgdhgasdgqwenbsdoiqweoiquweqweqwe}
- expirytime: ${JWT_EXPIRY:86400000} #1 day in milliseconds
+   secret: ${JWT_SECRET:gajsdhjagsdgadsgjtbqwytebqwtyqbtsddyuagsdgasdjhasdjgajsdgagsdjgasjdgjhasgdhgasdgqwenbsdoiqweoiquweqweqwe}
+   expirytime: ${JWT_EXPIRY:86400000} #1 day in milliseconds
+ 
+
  
 logging:
- level:
-  org.springframework.security: DEBUG
+  level:
+    org.springframework.security: DEBUG

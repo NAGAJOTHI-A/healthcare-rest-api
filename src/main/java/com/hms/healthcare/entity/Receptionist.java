@@ -1,5 +1,6 @@
 package com.hms.healthcare.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,19 +14,21 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Doctor {
+public class Receptionist {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
-	private Long phoneNumber;
-	private String specialization;
-	private Integer experienceYear;
-	private String address;
-	private String licenceNumber;
 	
+	@Column(nullable=false)
+	private String name;
+	
+	@Column(nullable = false, unique= true)
+	private Long phoneNumber;
+	
+	@Column(nullable=false, length=500)
+    private String address;
+    
 	@OneToOne
-	private User user;
-
+    private User user;
 }

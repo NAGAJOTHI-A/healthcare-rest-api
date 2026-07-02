@@ -1,61 +1,44 @@
 package com.hms.healthcare.service;
 
-import java.security.Principal;
 import java.util.Map;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hms.healthcare.dao.DoctorDao;
+import com.hms.healthcare.dao.ReceptionistDao;
 import com.hms.healthcare.dao.UserDao;
-import com.hms.healthcare.dto.AdminPasswordDto;
 import com.hms.healthcare.dto.DoctorDto;
-import com.hms.healthcare.dto.UserResponseDto;
+import com.hms.healthcare.dto.ReceptionistDto;
 import com.hms.healthcare.entity.Doctor;
+import com.hms.healthcare.entity.Receptionist;
 import com.hms.healthcare.entity.User;
 import com.hms.healthcare.enums.HospitalRoles;
-import com.hms.healthcare.mapper.UserMapper;
+
 import com.hms.healthcare.util.EmailService;
 
-import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService{
 
-    private final PasswordEncoder passwordEncoder;
+    
 	
 	private final UserDao userDao;
-	
-	private final UserMapper userMapper;
-	
-	private final DoctorDao doctorDao;
-	
+	private final DoctorDao doctorDao;	
+	private final ReceptionistDao receptionistDao;
 	private final EmailService emailService;
-
-    
-	@Override
-	public Map<String,Object> changePassword(AdminPasswordDto adminPasswordDto,Principal principal) {
-		// TODO Auto-generated method stub
-		String email=principal.getName();
-		User user=userDao.findByEmail(email);
-		if(passwordEncoder.matches(adminPasswordDto.getPrevPassword(),user.getPassword())) {
-			user.setPassword(passwordEncoder.encode(adminPasswordDto.getNewPassword()));
-			userDao.save(user);
-			return Map.of("message","Password Updated Successfully","user",userMapper.toUserResponseDto(user));
-		}
-		else {
-			throw new IllegalArgumentException("Previous Password is incorrect");
-		}	
-	}
+	private final PasswordEncoder passwordEncoder;
+	
 
 
 	@Override
 	public Map<String, Object> enrollDoctor(DoctorDto doctorDto) {
 		
-		if(userDao.checkEmailAndMobile(doctorDto.getEmail(), doctorDto.getPhoneNumber())) {
-			throw new IllegalArgumentException("Doctor with Given email or mobile Number already exist");
+		if(userDao.checkDuplicateEmailAndMobile(doctorDto.getEmail(), doctorDto.getPhoneNumber())) {
+			throw new IllegalArgumentException("User with Given email or mobile Number already exist");
 		}
 		
 		User user=new User(null,doctorDto.getName(),doctorDto.getEmail(),passwordEncoder.encode(doctorDto.getPassword()),
@@ -71,5 +54,27 @@ public class AdminServiceImpl implements AdminService{
 		
 		emailService.sendConfirmation(user.getEmail(),doctorDto.getPassword(),"DOCTOR",doctorDto.getName());
 		return Map.of("message","Doctor Enrolled Successfully","doctor",doctor);
+	}
+
+
+
+	@Override
+	public Map<String, Object> enrollReceptionist(ReceptionistDto receptionistDto) {
+		// TODO Auto-generated method stub
+		if(userDao.checkDuplicateEmailAndMobile(receptionistDto.getEmail(), receptionistDto.getPhoneNumber())) {
+			throw new IllegalArgumentException("User with Given email or mobile Number already exist");
+		}
+		User user=new User(null,receptionistDto.getName(),receptionistDto.getEmail(),passwordEncoder.encode(receptionistDto.getPassword()),
+				receptionistDto.getPhoneNumber(),HospitalRoles.RECEPTIONIST,true,null);
+	
+		userDao.save(user);
+		// TODO Auto-generated method stub
+		Receptionist receptionist=new Receptionist(null,receptionistDto.getName(),receptionistDto.getPhoneNumber(),
+				receptionistDto.getAddress(),user);
+		
+		receptionistDao.save(receptionist);
+		
+		emailService.sendConfirmation(user.getEmail(),receptionistDto.getPassword(),"RECEPTIONIST",receptionistDto.getName());
+		return Map.of("message","Receptionist Enrolled Successfully","Receptionist",receptionist);
 	}
 }

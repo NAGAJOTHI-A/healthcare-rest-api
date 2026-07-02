@@ -1,0 +1,25 @@
+package com.hms.healthcare.dto;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+public class ReceptionistDto {
+
+	@NotEmpty(message = "Name is required")
+	private String name;
+	
+	@NotEmpty(message = "Email is required")
+	private String email;
+	
+	@NotNull(message = "Phone number is required")
+	private Long phoneNumber;
+	
+	@NotEmpty(message = "Password is Required")
+	private String password;
+	
+	@NotEmpty(message = "Address is required")
+	private String address;
+	
+}

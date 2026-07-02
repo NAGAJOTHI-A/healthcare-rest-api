@@ -1,6 +1,5 @@
 package com.hms.healthcare.dto;
 
-import com.hms.healthcare.enums.HospitalRoles;
 
 import lombok.Data;
 
