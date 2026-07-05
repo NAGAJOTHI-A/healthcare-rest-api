@@ -15,4 +15,6 @@ public interface AdminService {
 
 	Map<String, Object> enrollReceptionist(ReceptionistDto receptionistDto);
 
+	Map<String, Object> getAllDoctors();
+
 }

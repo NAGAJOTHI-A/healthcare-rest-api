@@ -14,7 +14,7 @@ import com.hms.healthcare.entity.Doctor;
 import com.hms.healthcare.entity.Receptionist;
 import com.hms.healthcare.entity.User;
 import com.hms.healthcare.enums.HospitalRoles;
-
+import com.hms.healthcare.mapper.DoctorMapper;
 import com.hms.healthcare.util.EmailService;
 
 
@@ -32,7 +32,7 @@ public class AdminServiceImpl implements AdminService{
 	private final EmailService emailService;
 	private final PasswordEncoder passwordEncoder;
 	
-
+    private final DoctorMapper doctorMapper;
 
 	@Override
 	public Map<String, Object> enrollDoctor(DoctorDto doctorDto) {
@@ -76,5 +76,13 @@ public class AdminServiceImpl implements AdminService{
 		
 		emailService.sendConfirmation(user.getEmail(),receptionistDto.getPassword(),"RECEPTIONIST",receptionistDto.getName());
 		return Map.of("message","Receptionist Enrolled Successfully","Receptionist",receptionist);
+	}
+
+
+
+	@Override
+	public Map<String, Object> getAllDoctors() {
+		// TODO Auto-generated method stub
+		return Map.of("message","Doctors Found","doctors",doctorMapper.toDoctorDtoList(doctorDao.findAll()));
 	}
 }

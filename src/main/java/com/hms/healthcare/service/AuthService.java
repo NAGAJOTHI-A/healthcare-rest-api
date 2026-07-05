@@ -8,8 +8,8 @@ import com.hms.healthcare.dto.LoginDto;
 import com.hms.healthcare.dto.OtpDto;
 import com.hms.healthcare.dto.PasswordDto;
 import com.hms.healthcare.dto.PatientDto;
+import com.hms.healthcare.dto.ResetPasswordDto;
 
-import jakarta.validation.Valid;
 
 
 
@@ -21,8 +21,12 @@ public interface AuthService {
 
 	Map<String, Object> register(PatientDto patientDto);
 
-	Map<String, Object> verifyOtp(@Valid OtpDto otpDto);
+	Map<String, Object> verifyOtp(OtpDto otpDto);
 
 	Map<String, Object> resendOtp(String email);
+
+	Map<String, Object> forgotPassword(String email);
+
+	Map<String, Object> resetPassword(ResetPasswordDto resetPasswordDto);
 
 }
