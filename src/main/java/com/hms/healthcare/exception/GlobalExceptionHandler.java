@@ -4,11 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -26,10 +31,11 @@ public class GlobalExceptionHandler {
 	}
 	
 	
+	
 	  @ExceptionHandler(BadCredentialsException.class) 
 	  @ResponseStatus(HttpStatus.UNAUTHORIZED) 
 	  public Map<String,Object> handleBadCredentialsException(BadCredentialsException ex) { 
-		  return Map.of("error","Bad Credentials"); 
+		  return Map.of("error","Invalid Password"); 
 	  }
 	 
 	
@@ -40,13 +46,37 @@ public class GlobalExceptionHandler {
 		return Map.of("error",ex.getMessage());
 	}
 	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Map<String,Object> handle(HttpMessageNotReadableException ex)
+	{
+		return Map.of("error","Enter data in correct format");
+	}
+	
 	@ExceptionHandler(IllegalArgumentException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public Map<String,Object> handle(IllegalArgumentException ex)
 	{
 		return Map.of("error",ex.getMessage());
 	}
-	
+	@ExceptionHandler(NoResourceFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public Map<String,Object> handle(NoResourceFoundException ex)
+	{
+		return Map.of("error","You Have Entered Wrong URL ");
+	}
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+	public Map<String,Object> handle(HttpRequestMethodNotSupportedException ex)
+	{
+		return Map.of("error","Select proper Http Method");
+	}
+	@ExceptionHandler(DisabledException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public Map<String,Object> handle(DisabledException ex)
+	{
+		return Map.of("error","Your Account is Blocked Contact Admin");
+	}
 	
 	
 }

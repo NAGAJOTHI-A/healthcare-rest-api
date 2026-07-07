@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.hms.healthcare.entity.User;
+import com.hms.healthcare.exception.DataNotFoundException;
 import com.hms.healthcare.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		 User user=userRepository.findByEmail(email)
-				.orElseThrow( ()->new UsernameNotFoundException("User not found with email: "+email) );
+				.orElseThrow( ()->new DataNotFoundException("Invalid email: "+email) );
 		 
 		 return new CustomUserDetails(user);
 	}

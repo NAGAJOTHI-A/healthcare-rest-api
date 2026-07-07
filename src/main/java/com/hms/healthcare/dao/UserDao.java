@@ -29,4 +29,9 @@ public class UserDao {
 		return userRepository.existsByEmailOrMobile(email,mobile);
 	}
 
+	public User findById(Long id) {
+		// TODO Auto-generated method stub
+		return userRepository.findById(id).orElseThrow(()-> new DataNotFoundException("User not found with the Id:"+id));
+	}
+
 }

@@ -1,8 +1,13 @@
 package com.hms.healthcare.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
+
 import com.hms.healthcare.entity.Patient;
+
+import com.hms.healthcare.exception.DataNotFoundException;
 import com.hms.healthcare.repository.PatientRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -15,5 +20,14 @@ public class PatientDao {
 	
 	public void save(Patient patient) {
 		patientRepository.save(patient);
+	}
+
+	public List<Patient> findAll() {
+		// TODO Auto-generated method stub
+		List<Patient> patients=patientRepository.findAll();
+		if(patients.isEmpty()) {
+			throw new DataNotFoundException("No patient Records found");
+		}
+		return patients;
 	}
 }

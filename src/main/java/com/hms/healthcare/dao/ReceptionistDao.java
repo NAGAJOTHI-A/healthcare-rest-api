@@ -1,10 +1,9 @@
 package com.hms.healthcare.dao;
 
+import java.util.List;
 import org.springframework.stereotype.Repository;
-
 import com.hms.healthcare.entity.Receptionist;
 import com.hms.healthcare.repository.ReceptionistRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -16,5 +15,14 @@ public class ReceptionistDao {
 	public void save(Receptionist receptionist)
 	{
 		receptionistRepository.save(receptionist);
+	}
+
+	public List<Receptionist> findAll() {
+		// TODO Auto-generated method stub
+		List<Receptionist> receptionists=receptionistRepository.findAll();
+		if(receptionists.isEmpty()) {
+			throw new IllegalArgumentException("No Receptionists Found");
+		}
+		return receptionists;
 	}
 }
