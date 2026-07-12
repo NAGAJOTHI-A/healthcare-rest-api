@@ -6,10 +6,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.hms.healthcare.dto.DoctorDto;
+import com.hms.healthcare.dto.DoctorTimeSlotDto;
 import com.hms.healthcare.dto.PatientDto;
 import com.hms.healthcare.dto.ReceptionistDto;
+import com.hms.healthcare.dto.TimeSlotRequestDto;
 import com.hms.healthcare.dto.UserResponseDto;
 import com.hms.healthcare.entity.Doctor;
+import com.hms.healthcare.entity.DoctorTimeSlot;
 import com.hms.healthcare.entity.Patient;
 import com.hms.healthcare.entity.Receptionist;
 import com.hms.healthcare.entity.User;
@@ -40,4 +43,19 @@ public interface UserMapper {
 	PatientDto toPatientDto(Patient patient);
 	
 	List<PatientDto> toPatientDtoList(List<Patient> patients);
+
+	@Mapping(target="name",expression = "java(timeSlot.getDoctor().getName())")
+	@Mapping(target="specialization",expression="java(timeSlot.getDoctor().getSpecialization())")
+	@Mapping(target="timeSlot",expression = "java(timeSlot.getTimeSlot())")
+	DoctorTimeSlotDto toDoctorTimeSlotDto(DoctorTimeSlot timeSlot);
+	
+    List<DoctorTimeSlotDto> toDoctorTimeSlotDtoList(List<DoctorTimeSlot> timeSlots);
+
+    @Mapping(target="timeSlot",expression="java(requestDto.getTimeSlot())")
+    @Mapping(target="booked",ignore=true)
+    @Mapping(target="doctor",source="doctor")
+    @Mapping(target="id",ignore = true)
+	DoctorTimeSlot toDoctorTimeSlot(TimeSlotRequestDto requestDto,Doctor doctor);
+
+	
 }
