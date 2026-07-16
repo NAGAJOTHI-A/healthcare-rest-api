@@ -2,6 +2,8 @@ package com.hms.healthcare.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import com.hms.healthcare.entity.Doctor;
@@ -58,6 +60,52 @@ public class DoctorDao {
 		// TODO Auto-generated method stub
 		doctorTimeSlotRepository.save(doctorTimeSlot);
 	
+	}
+
+	public List<Doctor> getAllDoctors(int size, int page, String sort, boolean desc) {
+		// TODO Auto-generated method stub
+		List<Doctor> doctors=doctorRepository
+				.findAll(PageRequest.of(page-1, size, desc ? Sort.by(sort).descending():Sort.by(sort) ))
+				.getContent();
+		if(doctors.isEmpty()) {
+			throw new DataNotFoundException("No doctors Record Found");
+		}
+		else {
+			return doctors;
+		}
+	}
+
+	public List<Doctor> findByNameAndSpecialization(String name, String specialization) {
+		// TODO Auto-generated method stub
+		List<Doctor> doctors=doctorRepository.findByNameAndSpecialization(name,specialization);
+		if(doctors.isEmpty()) {
+			throw new DataNotFoundException("No doctors Record Found with Name: "+name+"having Specialization in: "+specialization);
+		}
+		else {
+			return doctors;
+		}
+	}
+
+	public List<Doctor> findByName(String name) {
+		// TODO Auto-generated method stub
+		List<Doctor> doctors=doctorRepository.findByNameContains(name);
+		if(doctors.isEmpty()) {
+			throw new DataNotFoundException("No doctors Record Found with name:"+name);
+		}
+		else {
+			return doctors;
+		}
+	}
+
+	public List<Doctor> findBySpecialization(String specialization) {
+		// TODO Auto-generated method stub
+		List<Doctor> doctors=doctorRepository.findBySpecialization(specialization);
+		if(doctors.isEmpty()) {
+			throw new DataNotFoundException("No doctors Record Found with Specialization in:"+specialization);
+		}
+		else {
+			return doctors;
+		}
 	}
 
 	
