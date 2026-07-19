@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-
+import com.hms.healthcare.entity.Appointment;
 import com.hms.healthcare.entity.Patient;
-
+import com.hms.healthcare.entity.User;
 import com.hms.healthcare.exception.DataNotFoundException;
+import com.hms.healthcare.repository.AppointmentRepository;
 import com.hms.healthcare.repository.PatientRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 public class PatientDao {
 
 	private final PatientRepository patientRepository;
+	private final UserDao userDao;
+	private final AppointmentRepository appointmentRepository;
 	
 	public void save(Patient patient) {
 		patientRepository.save(patient);
@@ -30,4 +33,18 @@ public class PatientDao {
 		}
 		return patients;
 	}
+
+	public Patient findPatientByEmail(String email) {
+		// TODO Auto-generated method stub
+		User user=userDao.findByEmail(email);
+		return patientRepository.findByUser(user)
+				.orElseThrow(()->new DataNotFoundException("No Patient Found"));
+	}
+
+	public void saveAppointment(Appointment appointment) {
+		// TODO Auto-generated method stub
+		appointmentRepository.save(appointment);
+	}
+	
+	
 }

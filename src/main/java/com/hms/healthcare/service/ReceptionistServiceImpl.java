@@ -31,7 +31,7 @@ public class ReceptionistServiceImpl implements ReceptionistService{
 	public Map<String, Object> getDoctorsSlot(Long id) {
 		// TODO Auto-generated method stub
 		Doctor doctor=doctorDao.getByUserId(id);
-		List<DoctorTimeSlot> timeSlots=doctorDao.getDoctorsTimeSlot(doctor);
+		List<DoctorTimeSlot> timeSlots=doctorDao.getDoctorsAvailableTimeSlot(doctor);
 		return Map.of("message","TimeSlots Found","slots",userMapper.toDoctorTimeSlotDtoList(timeSlots));
 	}
 

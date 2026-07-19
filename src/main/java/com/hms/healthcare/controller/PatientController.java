@@ -1,10 +1,12 @@
 package com.hms.healthcare.controller;
 
+import java.security.Principal;
 import java.util.Map;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,4 +37,11 @@ public class PatientController {
 	public Map<String,Object> getDoctorsTimeSlot(@PathVariable Long id){
 		return patientService.getDoctorsTimeSlot(id);
 	}
+	
+	@PostMapping("/appointments/{id}")
+	@PreAuthorize("hasRole('PATIENT')")
+	public Map<String,Object> bookAppointment(@PathVariable Long id,Principal principal){
+		return patientService.bookAppointment(id,principal.getName());
+	}
+	
 }

@@ -18,8 +18,11 @@ public class DoctorTimeSlot {
 	@Id
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne
-	private Doctor doctor;
+	
 	private LocalDateTime timeSlot;
 	private boolean booked;
+	private Double fee;
+	
+	@ManyToOne
+	private Doctor doctor;
 }

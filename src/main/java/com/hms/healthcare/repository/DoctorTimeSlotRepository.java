@@ -14,6 +14,10 @@ public interface DoctorTimeSlotRepository extends JpaRepository<DoctorTimeSlot, 
 
 	boolean existsByTimeSlotAndDoctor(LocalDateTime timeSlot, Doctor doctor);
 
+	List<DoctorTimeSlot> findByDoctorAndBookedFalse(Doctor doctor);
+
+	List<DoctorTimeSlot> findByDoctorAndBookedFalseAndTimeSlotAfter(Doctor doctor, LocalDateTime now);
+
 	
 
 }

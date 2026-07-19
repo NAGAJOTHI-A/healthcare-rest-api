@@ -9,6 +9,6 @@ public class TimeSlotRequestDto {
 
 	private Long userId;
 	private LocalDateTime timeSlot;
-	
+	private Double fee;
 	
 }
